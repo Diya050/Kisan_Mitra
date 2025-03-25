@@ -1,0 +1,55 @@
+
+# Flutter/Dart specific
+*.dart_tool/
+*.flutter-plugins
+*.flutter-plugins-dependencies
+*.packages
+*build/
+*pubspec.lock
+
+# iOS specific
+*ios/Flutter/Flutter.podspec
+*ios/.symlinks/
+*ios/Pods/
+*ios/.dart_tool/
+*ios/Flutter/ephemeral/
+
+# Android specific
+*android/.gradle/
+*android/app/*.keystore
+*android/key.properties
+
+# IDE specific
+*.vscode/
+*.idea/
+*.iml
+
+# macOS specific
+*macos/.symlinks/
+*macos/Flutter/ephemeral/
+*macos/build/
+
+# Windows specific
+*windows/flutter/ephemeral/
+*windows/build/
+
+# Linux specific
+*linux/flutter/ephemeral/
+*linux/build/
+
+# Web specific
+*web/.dart_tool/
+*web/build/
+
+# Debug/Log files
+*.log
+*.lock
+*.bak
+
+# Secret Keys / Credentials (IMPORTANT)
+*.env
+*google-services.json
+*firebase_options.dart
+*fastlane/.env
+
+*node_modules
