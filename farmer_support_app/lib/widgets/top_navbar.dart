@@ -1,6 +1,6 @@
-import 'package:farmer_support_app/screens/settings_screen.dart';
+// import 'package:farmer_support_app/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
-// import '../screens/language_selection_screen.dart';
+import '../screens/language_selection_screen.dart';
 class TopNavBar extends StatelessWidget {
   final String language; // "en" or "hi"
 
@@ -18,7 +18,7 @@ class TopNavBar extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: Colors.black,
+        color: Colors.green,
         boxShadow: [
           BoxShadow(
             color: Colors.white, // ✅ FIXED
@@ -56,11 +56,11 @@ class TopNavBar extends StatelessWidget {
 
           // Optional Language Icon (or any other trailing item)
           IconButton(
-            icon: Icon(Icons.language, color: Colors.green),
+            icon: Icon(Icons.language, color: Colors.white),
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SettingsScreen()),
+                MaterialPageRoute(builder: (context) => LanguageSelectionScreen()),
               );
             },
           ),

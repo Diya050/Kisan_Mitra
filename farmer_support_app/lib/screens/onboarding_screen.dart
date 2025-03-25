@@ -15,17 +15,17 @@ class OnboardingScreenState extends State<OnboardingScreen> {
     {
       "image": "assets/image1.jpg", // Add your onboarding images in assets folder
       "title": "Plant Identification",
-      "subtitle": "Quickly identify plants and understand their care needs."
+      "subtitle": "Quickly identify diseased crops and understand their care needs."
     },
     {
       "image": "assets/image2.jpg",
-      "title": "Watering Reminders",
-      "subtitle": "Get notified when your plants need watering."
+      "title": "Weather Forecasts",
+      "subtitle": "Get notified about upcoming weather and plan accordingly."
     },
     {
       "image": "assets/image3.png",
       "title": "Grow Your Garden",
-      "subtitle": "Track your plant’s growth and ensure they thrive."
+      "subtitle": "We Help your crop’s healthy growth and ensure they thrive."
     }
   ];
 
@@ -68,7 +68,7 @@ class OnboardingScreenState extends State<OnboardingScreen> {
                 padding: EdgeInsets.symmetric(vertical: 14, horizontal: 40),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
-                backgroundColor: Colors.teal,
+                backgroundColor: Colors.green,
               ),
               onPressed: _nextPage,
               child: Text(
@@ -100,7 +100,12 @@ class OnboardingContent extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset(image, height: 250),
+        Container(
+          width: 250, // Fixed width for the image
+          height: 250, // Fixed height for the image
+          padding: EdgeInsets.symmetric(horizontal: 20), // Padding from left and right
+          child: Image.asset(image, fit: BoxFit.contain), 
+        ),
         SizedBox(height: 20),
         Text(
           title,

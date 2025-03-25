@@ -19,11 +19,11 @@ class CropGuideScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white, // Light theme background
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Color.fromARGB(255, 127, 124, 124)),
+        iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -35,7 +35,7 @@ class CropGuideScreen extends StatelessWidget {
               height: 200,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage(imageUrl),
+                  image: AssetImage(imageUrl),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -45,7 +45,7 @@ class CropGuideScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   margin: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.7),
+                    color: Colors.black, // Dark overlay for readability
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Text(
@@ -53,7 +53,7 @@ class CropGuideScreen extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -86,13 +86,13 @@ class CropGuideScreen extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 15),
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: Colors.grey[900],
+        color: Colors.grey[200], // Light grey for contrast
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, color: Colors.yellowAccent, size: 22),
+          Icon(icon, color: Colors.blueAccent, size: 22), // Updated icon color
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -103,7 +103,7 @@ class CropGuideScreen extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Colors.yellowAccent,
+                    color: Colors.black,
                   ),
                 ),
                 const SizedBox(height: 5),
@@ -111,7 +111,7 @@ class CropGuideScreen extends StatelessWidget {
                   content,
                   style: const TextStyle(
                     fontSize: 14,
-                    color: Colors.white70,
+                    color: Colors.black87,
                   ),
                 ),
               ],

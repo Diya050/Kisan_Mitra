@@ -101,18 +101,6 @@ class FarmerProfileScreenState extends State<FarmerProfileScreen> {
             ),
             SizedBox(height: 10),
             
-            CheckboxListTile(
-              title: Text("This is my WhatsApp number"),
-              value: isWhatsAppNumber,
-              onChanged: (bool? value) {
-                setState(() {
-                  isWhatsAppNumber = value!;
-                });
-              },
-              activeColor: Colors.green,
-            ),
-            SizedBox(height: 10),
-
             Text("State", style: TextStyle(fontWeight: FontWeight.bold)),
             DropdownButtonFormField<String>(
               value: selectedState,

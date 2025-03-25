@@ -25,7 +25,7 @@ class SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Settings"), backgroundColor: Colors.teal),
+      appBar: AppBar(title: Text("Settings", style: TextStyle(color: Colors.white)), backgroundColor: Colors.blue),
       body: ListView(
         children: [
           _buildListTile(Icons.person, "Profile", () {
@@ -34,21 +34,21 @@ class SettingsScreenState extends State<SettingsScreen> {
           _buildListTile(Icons.language, "Language Selection", () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => LanguageSelectionScreen()));
           }),
+          _buildSwitchTile(Icons.notifications, "Notifications"),
           _buildListTile(Icons.description, "Terms and Conditions", () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => const TermsScreen()));
-          }),
-          _buildListTile(Icons.help, "FAQs", () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => FaqsScreen()));
-          }),
-          _buildSwitchTile(Icons.notifications, "Notifications"),
-          _buildListTile(Icons.logout, "Logout", () {
-            _confirmLogout(context);
           }),
           _buildListTile(Icons.info, "About", () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => const AboutScreen()));
           }),
+          _buildListTile(Icons.help, "FAQs", () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => FaqsScreen()));
+          }),
           _buildListTile(Icons.phone, "Contact Us", () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => ContactUsScreen()));
+          }),
+          _buildListTile(Icons.logout, "Logout", () {
+            _confirmLogout(context);
           }),
 
           // Divider for services
@@ -82,7 +82,7 @@ class SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildListTile(IconData icon, String title, VoidCallback onTap) {
     return ListTile(
-      leading: Icon(icon, color: Colors.teal),
+      leading: Icon(icon, color: Colors.blue),
       title: Text(title),
       onTap: onTap,
       trailing: Icon(Icons.arrow_forward_ios, size: 16),
@@ -91,7 +91,7 @@ class SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildSwitchTile(IconData icon, String title) {
     return SwitchListTile(
-      secondary: Icon(icon, color: Colors.teal),
+      secondary: Icon(icon, color: Colors.blue),
       title: Text(title),
       value: notificationsEnabled,
       onChanged: (bool value) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:farmer_support_app/screens/chat_history.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -20,6 +21,38 @@ class ChatScreenState extends State<ChatScreen> {
     }
   ];
 
+  late stt.SpeechToText _speech;
+  bool _isListening = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _speech = stt.SpeechToText();
+  }
+
+  void _startListening() async {
+    bool available = await _speech.initialize(
+      onStatus: (status) => debugPrint("Speech status: $status"),
+      onError: (error) => debugPrint("Speech error: $error"),
+    );
+
+    if (available) {
+      setState(() => _isListening = true);
+      _speech.listen(
+        onResult: (result) {
+          setState(() {
+            _controller.text = result.recognizedWords;
+          });
+        },
+      );
+    }
+  }
+
+  void _stopListening() {
+    setState(() => _isListening = false);
+    _speech.stop();
+  }
+
   void _sendMessage() {
     String messageText = _controller.text.trim();
     if (messageText.isNotEmpty) {
@@ -27,7 +60,6 @@ class ChatScreenState extends State<ChatScreen> {
         _messages.add({"sender": "user", "text": messageText});
       });
       _controller.clear();
-      // Simulate bot response
       Future.delayed(const Duration(seconds: 1), () {
         setState(() {
           _messages.add({
@@ -49,7 +81,7 @@ class ChatScreenState extends State<ChatScreen> {
         elevation: 0,
         actions: [
           IconButton(
-            icon: Icon(Icons.history), // History icon
+            icon: const Icon(Icons.history),
             onPressed: () {
               Navigator.push(
                 context,
@@ -75,13 +107,13 @@ class ChatScreenState extends State<ChatScreen> {
                     margin: const EdgeInsets.symmetric(vertical: 5),
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: isUser ? Colors.teal[300] : Colors.grey[300],
+                      color: isUser ? Colors.lightGreen[200] : Colors.blueGrey[100],
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Text(
                       message["text"]!,
                       style: TextStyle(
-                        color: isUser ? Colors.white : Colors.black,
+                        color: Colors.black,
                       ),
                     ),
                   ),
@@ -106,10 +138,11 @@ class ChatScreenState extends State<ChatScreen> {
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.mic, color: Colors.blue),
-                  onPressed: () {
-                    // Handle voice input
-                  },
+                  icon: Icon(
+                    _isListening ? Icons.mic_off : Icons.mic,
+                    color: _isListening ? Colors.red : Colors.blue,
+                  ),
+                  onPressed: _isListening ? _stopListening : _startListening,
                 ),
                 IconButton(
                   icon: const Icon(Icons.send, color: Colors.green),

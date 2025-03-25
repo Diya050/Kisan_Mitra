@@ -91,7 +91,7 @@ class LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
               width: 40,
               height: 40,
               decoration: const BoxDecoration(
-                color: Colors.grey,
+                color: Colors.green,
                 shape: BoxShape.circle,
               ),
               child: Center(
@@ -100,7 +100,7 @@ class LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: isSelected ? Colors.green : Colors.black,
+                    color: Colors.white,
                   ),
                 ),
               ),
@@ -113,7 +113,7 @@ class LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                 name,
                 style: TextStyle(
                   fontSize: 18,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
                   color: isSelected ? Colors.white : Colors.green,
                 ),
               ),

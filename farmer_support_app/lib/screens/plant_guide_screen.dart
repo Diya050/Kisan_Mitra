@@ -7,18 +7,19 @@ class PlantGuideScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black, // Dark theme background
+      backgroundColor: Colors.white, // Light theme background
       appBar: AppBar(
-        backgroundColor: Colors.black,
-        elevation: 0,
+        backgroundColor: Colors.white,
+        elevation: 1,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           "Common Plant Diseases",
-          style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
         ),
+        iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -29,16 +30,16 @@ class PlantGuideScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
-                color: Colors.grey[900],
+                color: Colors.grey[300], // Light grey background
                 borderRadius: BorderRadius.circular(12),
               ),
               child: const TextField(
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   hintText: "Search Here",
-                  hintStyle: TextStyle(color: Colors.grey),
+                  hintStyle: TextStyle(color: Colors.black54),
                   border: InputBorder.none,
-                  prefixIcon: Icon(Icons.search, color: Colors.white),
+                  prefixIcon: Icon(Icons.search, color: Colors.black),
                 ),
               ),
             ),
@@ -66,16 +67,6 @@ class PlantGuideScreen extends StatelessWidget {
           ],
         ),
       ),
-
-      // Floating Camera Button
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.green,
-        onPressed: () {
-          debugPrint("Camera Button Clicked!");
-        },
-        child: const Icon(Icons.camera_alt, color: Colors.white),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 
@@ -87,11 +78,11 @@ class PlantGuideScreen extends StatelessWidget {
         const SizedBox(height: 10),
         Text(
           title,
-          style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+          style: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10),
         SizedBox(
-          height: 150, // Fixed height for grid scroll
+          height: 150, // Fixed height for horizontal scroll
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: items,
@@ -123,23 +114,29 @@ class PlantGuideScreen extends StatelessWidget {
         margin: const EdgeInsets.only(right: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          image: DecorationImage(image: AssetImage(imagePath), fit: BoxFit.cover),
-        ),
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            gradient: LinearGradient(
-              colors: [Colors.black.withValues(alpha: 0.6), Colors.transparent],
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-            ),
+          image: DecorationImage(
+            image: AssetImage(imagePath),
+            fit: BoxFit.cover, // Ensures the image is clear and sharp
           ),
-          child: Align(
-            alignment: Alignment.bottomLeft,
+        ),
+        child: Align(
+          alignment: Alignment.bottomLeft,
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.black.withValues(alpha: 0.6), // Subtle background to improve text visibility
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(12),
+                bottomRight: Radius.circular(12),
+              ),
+            ),
             child: Text(
               name,
-              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
             ),
           ),
         ),

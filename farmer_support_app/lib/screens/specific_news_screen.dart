@@ -12,15 +12,14 @@ class SpecificNewsScreen extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text("News", style: TextStyle(color: Colors.black)),
-        backgroundColor: Colors.white,
         elevation: 0,
         actions: [
           TextButton.icon(
             onPressed: () {
               // Handle Share Action
             },
-            icon: const Icon(Icons.share, color: Colors.green),
-            label: const Text("Share", style: TextStyle(color: Colors.green)),
+            icon: const Icon(Icons.share, color: Colors.black),
+            label: const Text("Share", style: TextStyle(color: Colors.black)),
           ),
         ],
       ),
@@ -69,8 +68,6 @@ class SpecificNewsScreen extends StatelessWidget {
                   _buildSocialButton(Icons.chat, "WhatsApp", Colors.green),
                   const SizedBox(width: 10),
                   _buildSocialButton(Icons.facebook, "Facebook", Colors.blue),
-                  const SizedBox(width: 10),
-                  _buildSocialButton(Icons.more_horiz, "More", Colors.grey),
                 ],
               ),
               const SizedBox(height: 20),
@@ -95,7 +92,7 @@ class SpecificNewsScreen extends StatelessWidget {
                   },
                   child: const Text(
                     "View All News >",
-                    style: TextStyle(color: Colors.green, fontSize: 16),
+                    style: TextStyle(color: Colors.green, fontSize: 16, fontWeight: FontWeight.w700),
                   ),
                 ),
               ),

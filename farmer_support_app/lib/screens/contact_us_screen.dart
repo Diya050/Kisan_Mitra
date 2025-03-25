@@ -8,7 +8,7 @@ class ContactUsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Contact Us"),
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.green,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -91,7 +91,7 @@ class ContactUsScreen extends StatelessWidget {
 
               Row(
                 children: const [
-                  Icon(Icons.email, color: Colors.teal),
+                  Icon(Icons.email, color: Colors.green),
                   SizedBox(width: 10),
                   Text("support@Kisan Mitra.com"),
                 ],
@@ -100,7 +100,7 @@ class ContactUsScreen extends StatelessWidget {
 
               Row(
                 children: const [
-                  Icon(Icons.phone, color: Colors.teal),
+                  Icon(Icons.phone, color: Colors.green),
                   SizedBox(width: 10),
                   Text("+91 98765 43210"),
                 ],
@@ -109,7 +109,7 @@ class ContactUsScreen extends StatelessWidget {
 
               Row(
                 children: const [
-                  Icon(Icons.location_on, color: Colors.teal),
+                  Icon(Icons.location_on, color: Colors.green),
                   SizedBox(width: 10),
                   Expanded(
                     child: Text("Kisan Mitra HQ, Green Avenue, Sector 9, Mumbai, India"),

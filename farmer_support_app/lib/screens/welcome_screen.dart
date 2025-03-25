@@ -25,12 +25,14 @@ class SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white, // Set background color if needed
-      body: Center(
-        child: Image.asset(
-          "assets/welcome_screen.jpeg", // Make sure this matches the file in your assets folder
-          fit: BoxFit.cover,
-          width: double.infinity,
-          height: double.infinity,
+      body: SafeArea(
+        child: Center(
+          child: Image.asset(
+            "assets/welcome_screen.png", // Make sure this matches the file in your assets folder
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
+          ),
         ),
       ),
     );

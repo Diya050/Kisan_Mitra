@@ -8,7 +8,7 @@ class TermsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Terms and Conditions"),
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.green,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {

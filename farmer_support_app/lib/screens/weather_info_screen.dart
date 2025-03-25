@@ -38,7 +38,6 @@ class WeatherInfoScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Weather"),
-        actions: [IconButton(icon: Icon(Icons.share), onPressed: () {})],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -56,7 +55,6 @@ class WeatherInfoScreen extends StatelessWidget {
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Icon(Icons.edit, size: 18, color: Colors.green),
                 ],
               ),
               SizedBox(height: 8),

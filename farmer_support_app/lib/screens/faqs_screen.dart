@@ -8,7 +8,7 @@ class FaqsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("FAQs"),
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.green,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
