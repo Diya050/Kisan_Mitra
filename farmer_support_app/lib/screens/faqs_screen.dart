@@ -22,7 +22,7 @@ class FaqsScreen extends StatelessWidget {
           children: const [
             FAQItem(
               question: "How can I register on the Kisan Mitra app?",
-              answer: "To register, click on the 'Sign Up' button, enter your details, and verify your mobile number. "
+              answer: "To register, click on the 'Sign Up' button, and verify your mobile number. "
                   "Once verified, you can start using the app.",
             ),
             FAQItem(
@@ -31,20 +31,19 @@ class FaqsScreen extends StatelessWidget {
             ),
             FAQItem(
               question: "How do I get weather updates for my location?",
-              answer: "The app automatically detects your location and provides weather updates. You can also set a manual location "
-                  "from the settings.",
+              answer: "The app automatically detects your location and provides weather updates.",
             ),
             FAQItem(
-              question: "How can I contact an agricultural expert?",
-              answer: "You can reach out to experts through the 'Ask an Expert' feature in the app. Just submit your query, and an expert will respond.",
+              question: "How can I resolve my doubts related to agriculture?",
+              answer: "You can provide expert guidance through the 'Digital Assistant' feature in the app. Just submit your query, and an expert AI will respond.",
             ),
             FAQItem(
-              question: "Can I connect with other farmers using this app?",
-              answer: "Yes, the app has a community forum where farmers can share experiences, ask questions, and discuss farming techniques.",
+              question: "Can I check if my crop is diseased or healthy?",
+              answer: "Yes, the app has an option to upload the image and will provide disease classification results to you.",
             ),
             FAQItem(
               question: "What crops does the app support?",
-              answer: "The app provides guides for a wide range of crops, including wheat, rice, maize, vegetables, and fruits.",
+              answer: "The app provides guides for a wide range of crops, including wheat, maize etc.",
             ),
             FAQItem(
               question: "Is my personal data safe?",

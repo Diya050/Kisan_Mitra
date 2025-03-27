@@ -112,7 +112,7 @@ class ContactUsScreen extends StatelessWidget {
                   Icon(Icons.location_on, color: Colors.green),
                   SizedBox(width: 10),
                   Expanded(
-                    child: Text("Kisan Mitra HQ, Green Avenue, Sector 9, Mumbai, India"),
+                    child: Text("Kisan Mitra Developers GNE, Ludhiana"),
                   ),
                 ],
               ),

@@ -23,6 +23,7 @@ class HomeDashboardScreen extends StatelessWidget {
             // Heal Your Crop
             Container(
               decoration: BoxDecoration(
+                  color: Colors.white,
                   border: Border.all(color: Colors.green, width: 2),
                   borderRadius: BorderRadius.circular(12),
               ),
@@ -219,6 +220,7 @@ class HomeDashboardScreen extends StatelessWidget {
               children: [
                 _cropIcon(Icons.apple, Colors.green),
                 _cropIcon(Icons.apple, Colors.green),
+                _cropIcon(Icons.grass, Colors.green),
                 _cropIcon(Icons.grass, Colors.green),
                 _cropIcon(Icons.add, Colors.blue),
               ],

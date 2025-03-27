@@ -1,12 +1,13 @@
 import mongoose from "mongoose"
 
-const PlantSchema = new mongoose.Schema({
+const plantSchema = new mongoose.Schema({
     name: { type: String, required: true },
     diseases: [
       {
         name: { type: String, required: true },
         symptoms: { type: [String], required: true },
-        solutions: { type: [String], required: true }
+        solutions: { type: [String], required: true },
+        preventions: {type: [String]},
       }
     ],
     image: { type: String }  // Optional image URL
