@@ -63,12 +63,28 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
                     child: CircularProgressIndicator(),
                   );
                 } else if (snapshot.hasError) {
-                  // Show an error message if the fetch fails
-                  return Text(
-                    'Error loading news',
-                    style: TextStyle(color: Colors.red),
-                  );
-                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Container(
+                        height: 220,
+                        alignment: Alignment.center,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.error, color: Colors.red, size: 48),
+                            SizedBox(height: 8),
+                            Text(
+                              'Failed to load news!',
+                              style: TextStyle(color: Colors.red, fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              snapshot.error.toString(), // <-- show error message
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: Colors.grey, fontSize: 14),
+                            ),
+                          ],
+                        ),
+                      );
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   // Handle the case where no news is available
                   return Text('No news available');
                 }
@@ -76,13 +92,33 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
                 final articles = snapshot.data!;
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Latest News',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+                                    children: [
+                    // Title row with button on the right
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Latest News',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            // Navigate to the full news list screen
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => NewsScreen()),
+                            );
+                          },
+                          child: Text('View All News', style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF006400),
+                          ),),
+                        ),
+                      ],
                     ),
                     SizedBox(height: 8),
                     Container(
@@ -214,19 +250,6 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
                 );
               },
             ),
-            SizedBox(height: 24),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  // Navigate to the full news list screen (replace with your actual screen)
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => NewsScreen()),
-                  );
-                },
-                child: Text('View All News'),
-              ),
-            ),
           ],
         ),
       ),
@@ -253,17 +276,19 @@ class NewsArticle {
   });
 
   factory NewsArticle.fromJson(Map<String, dynamic> json) {
-    return NewsArticle(
-      articleId: json['article_id'].toString(),
-      title: json['title'] as String,
-      description: json['description'] as String,
-      link: json['link'] as String,
-      pubDate: DateTime.parse(json['pubDate'] as String),
-      imageUrl: (json['image_url'] == null || (json['image_url'] as String).isEmpty)
-          ? null
-          : json['image_url'] as String,
-    );
-  }
+  return NewsArticle(
+    articleId: (json['article_id'] ?? '').toString(),
+    title: (json['title'] ?? '') as String,
+    description: (json['description'] ?? '') as String,
+    link: (json['link'] ?? '') as String,
+    pubDate: DateTime.parse(json['pubDate'] as String),
+    imageUrl: (json['image_url'] == null || (json['image_url'] as String).isEmpty)
+        ? null
+        : json['image_url'] as String,
+  );
+}
+
+
 
   String getFormattedDate() {
     // Format the date as 'DD-MM-YYYY' or any preferred format
