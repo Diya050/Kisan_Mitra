@@ -36,7 +36,7 @@ class _NewsScreenState extends State<NewsScreen> {
           'KisanMitra News Portal',
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 30,
+            fontSize: 28,
           ),
         ),
       ),

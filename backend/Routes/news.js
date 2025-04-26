@@ -9,6 +9,7 @@ router.get('/', async (req, res) => {
     const { data } = await axios.get('https://newsdata.io/api/1/news', {
       params: {
         apikey:   process.env.NEWSDATA_API_KEY,
+        q: 'agriculture news',
         country:  'in',
         language: 'en',
         category: 'domestic,environment,food,health,technology',
