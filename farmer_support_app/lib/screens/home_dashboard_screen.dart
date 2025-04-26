@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-// Import the news list screen (replace with your actual file path or route)
 import 'news_screen.dart';
 
 class HomeDashboardScreen extends StatefulWidget {
@@ -12,12 +12,90 @@ class HomeDashboardScreen extends StatefulWidget {
 
 class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
   late Future<List<NewsArticle>> _newsFuture;
-  
+  String? _savedLocation;
+  Map<String, dynamic>? _weatherData;
+
   @override
   void initState() {
     super.initState();
     _newsFuture = fetchLatestNews();
+    loadSavedWeather(); // ← load on startup
   }
+
+  // ← NEW: fetch from your backend
+  Future<void> fetchWeather(String location) async {
+    final resp = await http.get(Uri.parse('http://localhost:3000/weather?location=$location'));
+    if (resp.statusCode == 200) {
+      final data = json.decode(resp.body);
+      setState(() {
+        _weatherData = data;
+        _savedLocation = location;
+      });
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('savedLocation', location);
+      await prefs.setString('savedWeatherData', json.encode(data));
+    } else {
+      throw Exception('Weather fetch failed (${resp.statusCode})');
+    }
+  }
+
+  // ← NEW: restore last-saved
+  Future<void> loadSavedWeather() async {
+    final prefs = await SharedPreferences.getInstance();
+    final loc = prefs.getString('savedLocation');
+    final jsonStr = prefs.getString('savedWeatherData');
+    if (loc != null && jsonStr != null) {
+      setState(() {
+        _savedLocation = loc;
+        _weatherData = json.decode(jsonStr);
+      });
+    }
+  }
+
+  // ← NEW: clear card
+  Future<void> deleteWeather() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('savedLocation');
+    await prefs.remove('savedWeatherData');
+    setState(() {
+      _savedLocation = null;
+      _weatherData = null;
+    });
+  }
+
+  // ← NEW: prompt once
+  Future<void> promptForLocation() async {
+  final TextEditingController _locationController = TextEditingController();
+
+  String? location = await showDialog<String>(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text('Enter Location'),
+      content: TextField(
+        controller: _locationController,
+        autofocus: true,
+        decoration: InputDecoration(hintText: 'City Name or Zip Code'),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop(_locationController.text);
+          },
+          child: Text('OK'),
+        ),
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text('Cancel'),
+        ),
+      ],
+    ),
+  );
+
+  if (location != null && location.isNotEmpty) {
+    await fetchWeather(location);
+  }
+}
+
 
   Future<List<NewsArticle>> fetchLatestNews() async {
     try {
@@ -45,12 +123,39 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // No AppBar defined here; add one if needed
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // ← NEW: Weather Card / Button above News
+            if (_weatherData != null) ...[
+              Card(
+                elevation: 3,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                child: ListTile(
+                  leading: Icon(Icons.wb_sunny, color: Colors.orange),
+                  title: Text(_weatherData!['location'] ?? 'Unknown'),
+                  subtitle: Text(
+                    'Temp: ${_weatherData!['temperature']}°C\n'
+                    '${_weatherData!['description']}'
+                  ),
+                  trailing: IconButton(
+                    icon: Icon(Icons.delete, color: Colors.red),
+                    onPressed: deleteWeather,
+                  ),
+                ),
+              ),
+            ] else ...[
+              ElevatedButton.icon(
+                onPressed: promptForLocation,
+                icon: Icon(Icons.add_location),
+                label: Text('Add Weather Info'),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+              ),
+            ],
+            SizedBox(height: 16),
+
             // FutureBuilder to handle asynchronous fetch of news articles
             FutureBuilder<List<NewsArticle>>(
               future: _newsFuture,
