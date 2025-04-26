@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: localization.translate('appTitle'),
+      title: localization.translate('KisanMitra'),
       locale: localization.locale,
       supportedLocales: const [Locale('en'), Locale('hi')],
       home: SplashScreen(), // Updated to HomePage with navbar

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 class NewsScreen extends StatefulWidget {
   @override
@@ -17,8 +18,7 @@ class _NewsScreenState extends State<NewsScreen> {
   }
 
   Future<void> fetchNews() async {
-    final response = await http.get(Uri.parse('http://localhost:3000/news')); // replace with your system's IP
-
+    final response = await http.get(Uri.parse('http://localhost:3000/news'));
     if (response.statusCode == 200) {
       setState(() {
         newsData = json.decode(response.body);
@@ -39,16 +39,17 @@ class _NewsScreenState extends State<NewsScreen> {
             fontSize: 30,
           ),
         ),
-        centerTitle: false,
       ),
       body: newsData.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : ListView.separated(
               padding: const EdgeInsets.all(12),
               itemCount: newsData.length,
-              separatorBuilder: (context, index) => const SizedBox(height: 10),
+              separatorBuilder: (_, __) => const SizedBox(height: 10),
               itemBuilder: (context, index) {
                 final news = newsData[index];
+                final Uri articleUri = Uri.parse(news['link'] ?? '');
+
                 return Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -63,7 +64,8 @@ class _NewsScreenState extends State<NewsScreen> {
                     ],
                   ),
                   child: ListTile(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
                     title: Text(
                       news['title'] ?? '',
                       style: const TextStyle(
@@ -82,14 +84,23 @@ class _NewsScreenState extends State<NewsScreen> {
                         ),
                       ),
                     ),
-                    trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        '/specific_news',
-                        arguments: news,
-                      );
-                    },
+                    trailing: TextButton(
+                      child: const Text('Read Full'),
+                      onPressed: () async {
+                        if (await canLaunchUrl(articleUri)) {
+                          await launchUrl(
+                            articleUri,
+                            mode: LaunchMode.externalApplication,
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Could not open the article'),
+                            ),
+                          );
+                        }
+                      },
+                    ),
                   ),
                 );
               },
