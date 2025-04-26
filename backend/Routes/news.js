@@ -6,11 +6,18 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
-    const response = await axios.get(process.env.NEWSDATA_API_KEY, {
+    const { data } = await axios.get('https://newsdata.io/api/1/news', {
+      params: {
+        apikey:   process.env.NEWSDATA_API_KEY,
+        country:  'in',
+        language: 'en',
+        category: 'domestic,environment,food,health,technology',
+      }
     });
-    res.json(response.data.results);
-  } catch (error) {
-    console.error('Error fetching news:', error);
+    // data.results is an array of { title, description, link, pubDate, ... }
+    res.json(data.results);
+  } catch (err) {
+    console.error('Error fetching news:', err.message);
     res.status(500).json({ error: 'Failed to fetch news' });
   }
 });
