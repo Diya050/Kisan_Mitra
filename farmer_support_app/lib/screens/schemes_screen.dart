@@ -81,7 +81,7 @@ class SchemesScreen extends StatelessWidget {
                 : SizedBox(),
             onTap: () {
               // Open article details
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const SpecificNewsScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SpecificNewsScreen()));
             },
           );
         },

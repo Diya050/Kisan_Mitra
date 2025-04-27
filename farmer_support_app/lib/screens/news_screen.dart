@@ -1,76 +1,110 @@
-import 'package:farmer_support_app/screens/specific_news_screen.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
-class NewsScreen extends StatelessWidget {
-  NewsScreen({super.key});
-  final List<Map<String, dynamic>> articles = [
-    {
-      "image": "assets/news1.jpg", // Replace with actual image URL
-      "title": "Dr. Gurdev Singh Khush Foundation's annual awards ceremony...",
-      "date": "20 Mar",
-      "new": true,
-    },
-    {
-      "image": "assets/news2.jpg",
-      "title": "He is earning good profit by cultivating marigold flowers...",
-      "date": "18 Mar",
-      "new": true,
-    },
-    {
-      "image": "assets/news3.jpg",
-      "title": "These 3 machines are essential for livestock farming...",
-      "date": "18 Mar",
-      "new": true,
-    },
-    {
-      "image": "assets/news4.jpg",
-      "title": "Weather will remain clear today, rain and snowfall expected...",
-      "date": "18 Mar",
-      "new": true,
-    },
-    {
-      "image": "assets/news5.jpg",
-      "title": "The farmer has been earning good profits by organic farming...",
-      "date": "17 Mar",
-      "new": true,
-    },
-  ];
+class NewsScreen extends StatefulWidget {
+  @override
+  _NewsScreenState createState() => _NewsScreenState();
+}
+
+class _NewsScreenState extends State<NewsScreen> {
+  List newsData = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchNews();
+  }
+
+  Future<void> fetchNews() async {
+    final response = await http.get(Uri.parse('http://localhost:3000/news'));
+    if (response.statusCode == 200) {
+      setState(() {
+        newsData = json.decode(response.body);
+      });
+    } else {
+      print('Failed to fetch news: ${response.statusCode}');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("News", style: TextStyle(color: Colors.black)),
-        backgroundColor: Colors.white,
-        elevation: 0,
+        title: const Text(
+          'KisanMitra News Portal',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 28,
+          ),
+        ),
       ),
-      body: ListView.separated(
-        padding: EdgeInsets.all(10),
-        itemCount: articles.length,
-        separatorBuilder: (context, index) => Divider(),
-        itemBuilder: (context, index) {
-          final article = articles[index];
-          return ListTile(
-            leading: Image.asset(article["image"], width: 100, height: 80, fit: BoxFit.cover),
-            title: Text(article["title"], maxLines: 2, overflow: TextOverflow.ellipsis),
-            subtitle: Text(article["date"]),
-            trailing: article["new"]
-                ? Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    decoration: BoxDecoration(
-                      color: Colors.blue.shade100,
-                      borderRadius: BorderRadius.circular(10),
+      body: newsData.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : ListView.separated(
+              padding: const EdgeInsets.all(12),
+              itemCount: newsData.length,
+              separatorBuilder: (_, __) => const SizedBox(height: 10),
+              itemBuilder: (context, index) {
+                final news = newsData[index];
+                final Uri articleUri = Uri.parse(news['link'] ?? '');
+
+                return Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.2),
+                        spreadRadius: 1,
+                        blurRadius: 6,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
+                    title: Text(
+                      news['title'] ?? '',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87,
+                      ),
                     ),
-                    child: Text("New", style: TextStyle(color: Colors.blue)),
-                  )
-                : SizedBox(),
-            onTap: () {
-              // Open article details
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const SpecificNewsScreen()));
-            },
-          );
-        },
-      ),
+                    subtitle: Padding(
+                      padding: const EdgeInsets.only(top: 6.0),
+                      child: Text(
+                        news['pubDate'] ?? '',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                    trailing: TextButton(
+                      child: const Text('Read Full'),
+                      onPressed: () async {
+                        if (await canLaunchUrl(articleUri)) {
+                          await launchUrl(
+                            articleUri,
+                            mode: LaunchMode.externalApplication,
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Could not open the article'),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                );
+              },
+            ),
     );
   }
 }
