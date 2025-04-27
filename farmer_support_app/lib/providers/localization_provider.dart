@@ -1,3 +1,4 @@
+//localization_provider.dart
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,8 @@ class LocalizationProvider extends ChangeNotifier {
     String jsonString =
         await rootBundle.loadString('localization/$languageCode.json');
     Map<String, dynamic> jsonMap = json.decode(jsonString);
-    _localizedStrings = jsonMap.map((key, value) => MapEntry(key, value.toString()));
+    _localizedStrings =
+        jsonMap.map((key, value) => MapEntry(key, value.toString()));
     notifyListeners();
   }
 

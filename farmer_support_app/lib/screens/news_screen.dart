@@ -17,8 +17,24 @@ class _NewsScreenState extends State<NewsScreen> {
     fetchNews();
   }
 
+  String get _backendBase {
+    return 'http://localhost:3000';
+    // // Flutter Web
+    // if (kIsWeb) return 'http://localhost:3000';
+    // // Android emulator
+    // if (Platform.isAndroid && !const bool.fromEnvironment('dart.vm.product')) {
+    //   return 'http://10.0.2.2:3000';
+    // }
+    // // Physical Android device
+    // if (Platform.isAndroid) {
+    //   return 'http://192.168.29.204:3000'; // ← your PC’s LAN IP
+    // }
+    // // iOS Simulator or other
+    // return 'http://localhost:3000';
+  }
+
   Future<void> fetchNews() async {
-    final response = await http.get(Uri.parse('http://localhost:3000/news'));
+    final response = await http.get(Uri.parse('$_backendBase/news'));
     if (response.statusCode == 200) {
       setState(() {
         newsData = json.decode(response.body);
