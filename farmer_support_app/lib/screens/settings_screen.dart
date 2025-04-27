@@ -12,6 +12,8 @@ import 'package:farmer_support_app/screens/language_selection_screen.dart';
 import 'package:farmer_support_app/screens/news_screen.dart';
 import 'package:farmer_support_app/screens/plant_guide_screen.dart';
 import 'package:farmer_support_app/screens/login_screen.dart';
+import 'package:farmer_support_app/services/user_session_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -114,10 +116,17 @@ class SettingsScreenState extends State<SettingsScreen> {
             child: Text("Cancel"),
           ),
           TextButton(
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => LoginScreen()), // Redirect to login
+            onPressed: () async {
+              // Clear the session
+              await UserSessionManager.clearSession();
+              // Add this in your logout function
+              final prefs = await SharedPreferences.getInstance();
+              await prefs.setBool('isLoggedIn', false);
+              
+              // Navigate to login screen and remove all previous routes
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => LoginScreen()),
+                (Route<dynamic> route) => false,
               );
             },
             child: Text("Logout", style: TextStyle(color: Colors.red)),

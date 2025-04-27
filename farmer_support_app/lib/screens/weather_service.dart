@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class WeatherService {
-  final String _openCageApiKey = dotenv.env['OPENCAGE_API_KEY'] ?? '';
+  final String _openCageApiKey = '';
 
   // Step 1: Get latitude and longitude from user location
   Future<Map<String, dynamic>?> getCoordinates(String locationName) async {

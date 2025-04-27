@@ -5,6 +5,7 @@ import axios from 'axios';
 const router = express.Router();
 
 router.get('/', async (req, res) => {
+  console.log("Requested News");
   try {
     const { data } = await axios.get('https://newsdata.io/api/1/news', {
       params: {

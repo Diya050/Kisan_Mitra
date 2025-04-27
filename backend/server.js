@@ -13,14 +13,10 @@ dotenv.config();
 
 app.use('/news', newsRoutes);
 
-app.listen(3000, () => {
-  console.log('Server running on port 3000');
-});
-
-// connectDb()
-//   .then(() => {
-//     app.listen(PORT, () => {
-//       console.log("⚙️  Server listening on Port:", PORT);
-//     });
-//   })
-//   .catch((err) => console.log(err));
+connectDb()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log("⚙️  Server listening on Port:", PORT);
+    });
+  })
+  .catch((err) => console.log(err));

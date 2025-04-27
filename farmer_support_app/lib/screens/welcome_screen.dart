@@ -28,7 +28,7 @@ class SplashScreenState extends State<SplashScreen> {
       body: SafeArea(
         child: Center(
           child: Image.asset(
-            "assets/welcome_screen.png", // Make sure this matches the file in your assets folder
+            "assets/welcome_screen.jpg", // Make sure this matches the file in your assets folder
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
