@@ -1,8 +1,19 @@
 import express from "express";
-import { sendOTP, verifyWhatsAppOTP } from "../Controllers/user.controller.js";
-const userRouter = express.Router();
+import { register, login, getUser, updateUser } from "../Controllers/user.controller.js"
+import { upload } from "../Middlewares/multer.middleware.js";  // We will use Multer for handling profileImage uploads
 
-userRouter.post("/send-otp", sendOTP);
-userRouter.post("/verify-otp", verifyWhatsAppOTP);
+const router = express.Router();
 
-export default userRouter;
+// Register a new user (with optional profile image)
+router.post("/register", upload.single("profileImage"), register);
+
+// Login existing user
+router.post("/login", login);
+
+// Get user details
+router.get("/:id", getUser);
+
+// Update user details (with optional new profile image)
+router.put("/:id", upload.single("profileImage"), updateUser);
+
+export default router;
