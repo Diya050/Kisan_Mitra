@@ -5,7 +5,6 @@ import {connectDb} from './DB/index.js';
 import { app } from "./app.js";
 import newsRoutes from './Routes/news.js';
 
-
 const PORT = process.env.port || 3000;
 
 dotenv.config();
