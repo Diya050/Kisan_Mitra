@@ -17,13 +17,12 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
   bool isLoading = false;
 
   String get _backendBase {
-    return 'http://localhost:3000'; // Replace with your backend URL
+    return 'http://192.168.29.204:3000'; // Replace with your backend URL
   }
 
   @override
   void initState() {
     super.initState();
-
     _newsFuture = fetchLatestNews();
     loadSavedWeather(); // Load saved weather data on initialization
   }
@@ -162,13 +161,6 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ElevatedButton(
-                  onPressed: () async {
-                    // Manually trigger weather check
-                    await BackgroundService.checkWeatherAndNotify();
-                  },
-                  child: Text('Test Weather Notifications'),
-                ),
                 ElevatedButton.icon(
                   onPressed: promptForLocation,
                   icon: Icon(Icons.add_location),

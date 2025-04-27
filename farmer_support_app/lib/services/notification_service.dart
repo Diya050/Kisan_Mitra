@@ -21,17 +21,38 @@ class NotificationService {
   }
 
   // Method to show a notification immediately
-  static void showImmediateNotification({
+  static Future<void> welcomeNotification({
     required int id,
     required String title,
     required String body,
-  }) {
+  }) async {
+    if (!await AwesomeNotifications().isNotificationAllowed()) {
+      await AwesomeNotifications().requestPermissionToSendNotifications();
+    }
     AwesomeNotifications().createNotification(
       content: NotificationContent(
-        id: 1,
+        id: id,
         channelKey: 'basic_channel',
-        title: 'Weather Alert',
-        body: 'This is a test weather notification.',
+        title: title, // dynamic
+        body: body, // dynamic
+      ),
+    );
+  }
+
+  static Future<void> showImmediateNotification({
+    required int id,
+    required String title,
+    required String body,
+  }) async {
+    if (!await AwesomeNotifications().isNotificationAllowed()) {
+      await AwesomeNotifications().requestPermissionToSendNotifications();
+    }
+    AwesomeNotifications().createNotification(
+      content: NotificationContent(
+        id: id,
+        channelKey: 'basic_channel',
+        title: title,
+        body: body,
       ),
     );
   }

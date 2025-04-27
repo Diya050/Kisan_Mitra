@@ -18,7 +18,7 @@ class _NewsScreenState extends State<NewsScreen> {
   }
 
   String get _backendBase {
-    return 'http://localhost:3000';
+    return 'http://192.168.29.204:3000';
     // // Flutter Web
     // if (kIsWeb) return 'http://localhost:3000';
     // // Android emulator

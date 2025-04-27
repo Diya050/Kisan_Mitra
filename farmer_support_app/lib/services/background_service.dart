@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 class BackgroundService {
   @pragma('vm:entry-point')
   static Future<void> checkWeatherAndNotify() async {
+    print('🔔 Alarm fired at ${DateTime.now()}');
     // Ensure initialization in the background isolate
     WidgetsFlutterBinding.ensureInitialized();
     final prefs = await SharedPreferences.getInstance();
@@ -19,7 +20,7 @@ class BackgroundService {
     const targetKeywords = ['clear sky', 'rain', 'storm'];
 
     // Iterate over the saved cards and check for target weather conditions
-    for (int i = 0; i < savedCards.length; i++) {
+    for (int i = 1; i < savedCards.length; i++) {
       final data = jsonDecode(savedCards[i]) as Map<String, dynamic>;
       final description = (data['description']?.toString() ?? '').toLowerCase();
 
@@ -29,7 +30,7 @@ class BackgroundService {
         NotificationService.showImmediateNotification(
           id: i,
           title: 'Weather Alert: $description',
-          body: 'A saved forecast matches: $description',
+          body: '$description expected soon! Take care.',
         );
       }
     }
