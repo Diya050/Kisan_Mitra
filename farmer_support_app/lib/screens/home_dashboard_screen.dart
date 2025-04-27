@@ -166,7 +166,7 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
                   icon: Icon(Icons.add_location),
                   label: Text('Add Weather Info'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
+                    backgroundColor: const Color.fromARGB(255, 172, 201, 173),
                   ),
                 ),
                 SizedBox(height: 12),

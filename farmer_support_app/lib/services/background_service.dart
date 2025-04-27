@@ -17,7 +17,7 @@ class BackgroundService {
     final savedCards = prefs.getStringList('savedWeatherDataList') ?? [];
 
     // Keywords to trigger notifications
-    const targetKeywords = ['clear sky', 'rain', 'storm'];
+    const targetKeywords = ['clear sky', 'rain', 'thunderstorm'];
 
     // Iterate over the saved cards and check for target weather conditions
     for (int i = 1; i < savedCards.length; i++) {
