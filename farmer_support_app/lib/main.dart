@@ -24,7 +24,7 @@ void main() async {
     await AndroidAlarmManager.periodic(
       const Duration(
           minutes:
-              30), // interval ≥ 15 min :contentReference[oaicite:6]{index=6}
+              1), // interval ≥ 15 min :contentReference[oaicite:6]{index=6}
       1, // unique alarm ID
       BackgroundService.checkWeatherAndNotify,
       exact: true, // exact timing :contentReference[oaicite:7]{index=7}

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:farmer_support_app/screens/chat_history.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -13,16 +15,11 @@ class ChatScreenState extends State<ChatScreen> {
   final TextEditingController _controller = TextEditingController();
   final List<Map<String, String>> _messages = [
     {"sender": "bot", "text": "Hello! How can I help you today?"},
-    {"sender": "user", "text": "Which crops can I grow in Punjab?"},
-    {
-      "sender": "bot",
-      "text":
-          "Some of the major crops grown in Punjab, India include:\n- Wheat\n- Rice\n- Maize"
-    }
   ];
 
   late stt.SpeechToText _speech;
   bool _isListening = false;
+  final String _queryApiUrl = 'http://192.168.1.79:5000/query'; // Replace with your Flask API URL (including port)
 
   @override
   void initState() {
@@ -53,21 +50,55 @@ class ChatScreenState extends State<ChatScreen> {
     _speech.stop();
   }
 
+  Future<void> _sendQuery(String query) async {
+    setState(() {
+      _messages.add({"sender": "user", "text": query});
+      _controller.clear();
+    });
+
+    final Map<String, dynamic> requestBody = {
+      "query": query,
+      "profile": {
+        "name": "Existing User", // Replace with actual user data
+        "location": "Ludhiana", // Replace with actual user data
+        "soil_type": "Loamy", // Replace with actual user data
+        "soil_ph": "6.5", // Replace with actual user data
+        "farming_preference": "Organic", // Replace with actual user data
+      },
+    };
+
+    try {
+      final response = await http.post(
+        Uri.parse(_queryApiUrl),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(requestBody),
+      );
+
+      dynamic decodedResponse; // Define decodedResponse outside the if block
+
+      if (response.statusCode == 200) {
+        decodedResponse = jsonDecode(response.body);
+        setState(() {
+          _messages.add({"sender": "bot", "text": decodedResponse['response'] ?? 'No response received.'});
+        });
+      } else {
+        decodedResponse = jsonDecode(response.body); // Decode even for error responses
+        setState(() {
+          _messages.add({"sender": "bot", "text": "Error: ${decodedResponse['error'] ?? 'Something went wrong.'}"});
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _messages.add({"sender": "bot", "text": "Failed to connect to the server."});
+      });
+      debugPrint('Error sending query: $e');
+    }
+  }
+
   void _sendMessage() {
     String messageText = _controller.text.trim();
     if (messageText.isNotEmpty) {
-      setState(() {
-        _messages.add({"sender": "user", "text": messageText});
-      });
-      _controller.clear();
-      Future.delayed(const Duration(seconds: 1), () {
-        setState(() {
-          _messages.add({
-            "sender": "bot",
-            "text": "I'm still learning! But I can try to help. 😊"
-          });
-        });
-      });
+      _sendQuery(messageText);
     }
   }
 
@@ -75,7 +106,7 @@ class ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Kisan Mitra Doctor"),
+        title: const Text("Kisan Mitra Chat"),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 0,
@@ -112,7 +143,7 @@ class ChatScreenState extends State<ChatScreen> {
                     ),
                     child: Text(
                       message["text"]!,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.black,
                       ),
                     ),

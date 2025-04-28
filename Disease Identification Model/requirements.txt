@@ -3,3 +3,6 @@ Flask-Cors
 tensorflow
 pandas
 numpy
+huggingface_hub
+python-dotenv
+opencv-python

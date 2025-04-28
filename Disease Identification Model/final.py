@@ -8,6 +8,8 @@ import pandas as pd
 from tensorflow.keras.preprocessing import image
 from dotenv import load_dotenv
 from huggingface_hub import InferenceClient
+import tempfile 
+import io
 
 # ========== ⚙️ Environment Setup ==========
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # Suppress TensorFlow logs
@@ -41,12 +43,17 @@ class_indices = {
 }
 
 # ========== 📸 Preprocess Uploaded Image ==========
-def preprocess_image(file, target_size=(128, 128)):
-    img = image.load_img(file, target_size=target_size)
-    img_array = image.img_to_array(img)
-    img_array = np.expand_dims(img_array, axis=0)
-    img_array /= 255.0
-    return img_array
+def preprocess_image(file, target_size=(224, 224)):
+    try:
+        img_bytes = file.read()  # Read the file content into bytes
+        img = image.load_img(io.BytesIO(img_bytes), target_size=target_size)
+        img_array = image.img_to_array(img)
+        img_array = np.expand_dims(img_array, axis=0)
+        img_array /= 255.0
+        return img_array
+    except Exception as e:
+        print(f"Error during image preprocessing: {e}")
+        return None # Or handle the error as appropriate
 
 # ========== 🔍 Predict if Leaf or Not ==========
 def predict_leaf_or_not(img_array):
@@ -151,7 +158,34 @@ Additional Recommendations:
     )
     return response.strip()
 
+# ========== 💡 Generate General Farming Advice ==========
+def get_llm_response(query, profile=None):
+    context = ""
+    if profile:
+        context += (
+            f"The farmer's name is {profile['name']}, located in {profile['location']}, "
+            f"prefers {profile['farming_preference']} farming, soil type is {profile['soil_type']} with pH {profile['soil_ph']}."
+        )
+        if profile.get('farm_size'):
+            context += f" The farm size is {profile['farm_size']}."
+
+    prompt = context + f"\n\nThe farmer {profile['name']} is asking: '{query}'. " \
+             f"Kindly reply in a friendly tone, addressing the farmer by their name, and provide a simple, useful farming recommendation." \
+             f" Please avoid any repetition, and keep the response concise. Sign off as 'Kisan Mitra Team'."
+
+    response = client.text_generation(
+        prompt=prompt,
+        model="HuggingFaceH4/zephyr-7b-beta",
+        max_new_tokens=700,
+        temperature=0.7
+    )
+    return response.strip()
+
 # ========== 🚀 API Endpoints ==========
+
+@app.route("/", methods=["GET"])
+def home():
+    return jsonify({"message": "Welcome to the Kisan Mitra Farming Assistant API!"})
 
 @app.route("/predict", methods=["POST"])
 def predict():
@@ -161,10 +195,13 @@ def predict():
     if not file:
         return jsonify({"error": "No file uploaded"}), 400
 
-    img_array = preprocess_image(file)
+    # Preprocess for the leaf/non-leaf model (224x224)
+    img_array_leaf = preprocess_image(file, target_size=(224, 224))
+    if img_array_leaf is None:
+        return jsonify({"error": "Error preprocessing leaf/non-leaf image"}), 500
 
     # Step 1: Leaf or Non-leaf prediction
-    leaf_status = predict_leaf_or_not(img_array)
+    leaf_status = predict_leaf_or_not(img_array_leaf)
 
     if leaf_status == "Non-Leaf":
         return jsonify({
@@ -172,8 +209,15 @@ def predict():
             "prediction": leaf_status
         }), 200
 
+    # Reset the file pointer to the beginning before reading again
+    file.stream.seek(0)
+    # Preprocess for the disease prediction model (128x128)
+    img_array_disease = preprocess_image(file, target_size=(128, 128))
+    if img_array_disease is None:
+        return jsonify({"error": "Error preprocessing disease image"}), 500
+
     # Step 2: Disease Prediction
-    disease = predict_disease(img_array)
+    disease = predict_disease(img_array_disease)
 
     # Step 3: Fetch base recommendation
     base_info = fetch_recommendation(disease)
@@ -198,6 +242,32 @@ def predict():
         }
 
     return jsonify(result), 200
+
+@app.route("/query", methods=["POST"])
+def query():
+    data = request.json
+
+    required_profile_fields = ["name", "location", "soil_type", "soil_ph", "farming_preference"]
+    missing_fields = [field for field in required_profile_fields if field not in data.get("profile", {})]
+
+    if not data or not data.get("query") or missing_fields:
+        return jsonify({
+            "error": "Invalid request. Make sure 'query' and required profile fields are provided.",
+            "required_profile_fields": required_profile_fields
+        }), 400
+
+    profile = data["profile"]
+    query_text = data["query"]
+
+    try:
+        response = get_llm_response(query_text, profile)
+        return jsonify({
+            "farmer_name": profile["name"],
+            "query": query_text,
+            "response": response
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 # ========== 🛠️ Main ==========
 if __name__ == "__main__":
