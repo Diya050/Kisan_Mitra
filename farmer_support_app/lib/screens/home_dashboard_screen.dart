@@ -17,7 +17,7 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
   bool isLoading = false;
 
   String get _backendBase {
-    return 'http://192.168.29.204:3000'; // Replace with your backend URL
+    return 'http://192.168.15.26:3000'; // Replace with your backend URL
   }
 
   @override
@@ -166,7 +166,7 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
                   icon: Icon(Icons.add_location),
                   label: Text('Add Weather Info'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 172, 201, 173),
+                    backgroundColor: const Color.fromARGB(205, 172, 201, 173),
                   ),
                 ),
                 SizedBox(height: 12),

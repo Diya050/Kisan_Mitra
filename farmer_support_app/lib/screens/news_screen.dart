@@ -18,7 +18,7 @@ class _NewsScreenState extends State<NewsScreen> {
   }
 
   String get _backendBase {
-    return 'http://192.168.29.204:3000';
+    return 'http://192.168.15.26:3000';
     // // Flutter Web
     // if (kIsWeb) return 'http://localhost:3000';
     // // Android emulator
@@ -50,10 +50,7 @@ class _NewsScreenState extends State<NewsScreen> {
       appBar: AppBar(
         title: const Text(
           'KisanMitra News Portal',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 28,
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
         ),
       ),
       body: newsData.isEmpty
@@ -81,7 +78,9 @@ class _NewsScreenState extends State<NewsScreen> {
                   ),
                   child: ListTile(
                     contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 12),
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
                     title: Text(
                       news['title'] ?? '',
                       style: const TextStyle(
