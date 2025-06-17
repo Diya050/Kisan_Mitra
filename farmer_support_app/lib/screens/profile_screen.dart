@@ -77,7 +77,7 @@ class FarmerProfileScreenState extends State<FarmerProfileScreen> {
         return;
       }
 
-      var uri = Uri.parse('http://192.168.1.79:3000/api/v1/user/$userId'); // replace with your real URL
+      var uri = Uri.parse('http://192.168.15.26:3000/api/v1/user/$userId'); // replace with your real URL
       var response = await http.get(uri);
 
       if (response.statusCode == 200) {
@@ -126,7 +126,7 @@ void _saveProfile() async {
       return;
     }
 
-    var uri = Uri.parse('http://192.168.1.79:3000/api/v1/user/$userId');
+    var uri = Uri.parse('http://192.168.15.26:3000/api/v1/user/$userId');
     var request = http.MultipartRequest('PUT', uri);
 
     request.fields['firstName'] = firstNameController.text;

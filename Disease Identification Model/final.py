@@ -190,7 +190,9 @@ def home():
 @app.route("/predict", methods=["POST"])
 def predict():
     file = request.files["image"]
+    print("File is: ", file)
     profile = request.form.to_dict()
+    print("Profile: ", profile)
 
     if not file:
         return jsonify({"error": "No file uploaded"}), 400

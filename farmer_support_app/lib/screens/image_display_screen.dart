@@ -26,7 +26,7 @@ class _ImageDisplayScreenState extends State<ImageDisplayScreen> {
     });
 
     try {
-      var uri = Uri.parse('http://192.168.1.79:5000/predict'); // Replace with your API endpoint
+      var uri = Uri.parse('http://192.168.15.26:5000/predict'); // Replace with your API endpoint
       var request = http.MultipartRequest('POST', uri);
       request.files.add(await http.MultipartFile.fromPath('image', imageFile.path));
 
@@ -264,7 +264,7 @@ class _ImageDisplayScreenState extends State<ImageDisplayScreen> {
 
     // Example using the provided fetchUserProfile function (you might need to adapt it)
     try {
-      var uri = Uri.parse('http://192.168.1.79:3000/api/v1/user/$userId');
+      var uri = Uri.parse('http://192.168.15.26:3000/api/v1/user/$userId');
       var response = await http.get(uri);
 
       if (response.statusCode == 200) {

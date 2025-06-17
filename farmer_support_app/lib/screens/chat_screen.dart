@@ -19,7 +19,7 @@ class ChatScreenState extends State<ChatScreen> {
 
   late stt.SpeechToText _speech;
   bool _isListening = false;
-  final String _queryApiUrl = 'http://192.168.1.79:5000/query'; // Replace with your Flask API URL (including port)
+  final String _queryApiUrl = 'http://192.168.15.26:5000/query'; // Replace with your Flask API URL (including port)
 
   @override
   void initState() {
