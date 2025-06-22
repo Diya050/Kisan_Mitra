@@ -1,53 +1,57 @@
-# AI-Powered Plant Disease Detection & Advisory System
+# 🌱 **AI-Powered Plant Disease Detection & Advisory System**
 
-An end-to-end mobile-friendly application that empowers farmers by:
+An end-to-end, mobile-friendly application designed to support farmers through:
 
-- 🧠 **AI-Based Disease Detection**: Upload or capture leaf images for instant plant disease diagnosis.
-- 💡 **Real-Time Treatment Recommendations**: Receive tailored guidance on managing and treating identified diseases.
-- ⛅ **Weather & Location-Based Alerts**: Get timely warnings about adverse weather events (storms, frost, heatwaves) for your saved fields.
-- 📱 **Mobile-First Design**: Intuitive Flutter app optimized for use on smartphones in the field.
+* **AI-Based Disease Detection**: Capture or upload leaf images for instant diagnosis using a deep learning model.
+* **Real-Time Treatment Recommendations**: Get personalized suggestions to manage and treat plant diseases.
+* **Weather-Based Alerts**: Receive timely notifications about adverse weather conditions like storms, frost, or heatwaves.
+* **News Updates**: A news prtal that displays latest news tailored to country and agriculture
+* **Mobile-First Design**: Built using Flutter for a responsive and intuitive experience across Android, iOS, and Web.
 
 ---
 
 ## 🚀 Features
 
-| Feature                                   | Description                                                 |
-|-------------------------------------------|-------------------------------------------------------------|
-| **Image Upload & Capture**                | Snap or select leaf photos directly in-app.                 |
-| **Deep Learning Diagnosis**               | AI model classifies diseases (blight, rust, mildew, etc.).  |
-| **Treatment Guidance**                    | Textual & graphical recommendations for disease management.|
-| **Multi-Location Weather Cards**          | Add multiple farm locations; view current weather details.  |
-| **Automated Weather Notifications**       | Scheduled (every 6 hrs) and instant severe-weather alerts.  |
-| **Local Storage of Locations**            | Cities/fields stored via SharedPreferences for offline use. |
-| **News & Advisory Feed**                  | Latest agricultural news from newsdata.io API.              |
+| **Feature**                     | **Description**                                               |
+| ------------------------------- | ------------------------------------------------------------- |
+| **Image Upload & Capture**      | Farmers can snap or upload leaf photos directly from the app. |
+| **Deep Learning Diagnosis**     | Trained AI model classifies diseases like blight, rust, etc.  |
+| **Treatment Guidance**          | Provides graphical and textual treatment recommendations.     |
+| **Weather Monitoring & Alerts** | Users can track weather across multiple locations.            |
+| **Automated Notifications**     | Sends alerts every 6 hours or instantly in severe weather.    |
+| **Local Storage of Locations**  | Stores selected locations using SharedPreferences.            |
+| **News & Advisory Feed**        | Displays the latest farming news using newsdata.io API.       |
 
 ---
 
 ## 📱 Mobile Deployment
 
-This project uses **Flutter**, enabling cross-platform support for Android, iOS, and Web.
+Built with **Flutter**, supporting Android, iOS, and web platforms.
 
-1. **Prerequisites**
-   - Flutter SDK ≥ 3.0
-   - Android Studio (with emulator) or physical device
-   - Node.js backend for weather/news APIs (or public endpoints)
+### Prerequisites
 
-2. **Build & Run**
-   ```bash
-   # Fetch dependencies
-   flutter pub get
+* Flutter SDK ≥ 3.0
+* Android Studio (with emulator) or a physical device
+* Backend APIs (Node.js for weather/news; Python for disease detection)
 
-   # Run on Android emulator or connected device
-   flutter run -d android
+### Build & Run
 
-   # Or serve as web app (test in browser)
-   flutter run -d web-server
-   ```
+```bash
+# Fetch dependencies
+flutter pub get
 
-3. **Release APK**
-   ```bash
-   flutter build apk --release
-   ```
+# Run on Android
+flutter run -d android
+
+# Or run as a web app
+flutter run -d web-server
+```
+
+### Release APK
+
+```bash
+flutter build apk --release
+```
 
 ---
 
@@ -63,49 +67,50 @@ flowchart LR
   D -- No  --> F[Display healthy status]
   A --> G[User adds weather location]
   G --> H[Save to SharedPreferences]
-  H --> I[BackgroundService fetches weather]
+  H --> I[Fetch weather data from backend]
   I --> J{Severe weather?}
-  J -- Yes --> K[Send immediate notification]
-  J -- No  --> L[Aggregate summary every 6 hrs]
-  L --> M[Send summary notification]
+  J -- Yes --> K[Send instant notification]
+  J -- No  --> L[Send summary every 6 hrs]
 ```
 
 ---
 
-## 🔧 Setup Backend (Node.js example)
+## 🔧 Backend Setup
 
-1. **Clone and install**
-   ```bash
-   git clone <repo-url>
-   cd backend
-   npm install
-   ```
-2. **Enable CORS** (in `server.js`)
-   ```js
-   const cors = require('cors');
-   app.use(cors());
-   ```
-3. **Listen on all interfaces**
-   ```js
-   app.listen(3000, '0.0.0.0', () => console.log('Listening on 3000'));
-   ```
-4. **Run server**
-   ```bash
-   node server.js
-   ```
+### Run Node.js Server (for Weather & News APIs)
+
+```bash
+# From project root
+cd .\backend\
+node server.js
+```
+
+### Run Disease Detection Model (Python)
+
+```bash
+# From project root
+cd '.\Disease Identification Model\'
+python final.py
+```
 
 ---
 
 ## 🛠️ Adding New Weather Locations
 
-1. Tap **Add Weather Info**.
-2. Enter city name or ZIP code.
-3. Weather card appears; data saved locally.
-4. Notifications will cover all saved locations.
+1. Tap **Add Weather Info** in the app.
+2. Enter the city name or ZIP code.
+3. A weather card appears; the data is saved locally.
+4. Notifications are automatically managed for all saved locations.
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please fork the repo and open a pull request with your improvements.
+Contributions are welcome! Feel free to fork the repository, improve features, and open a pull request.
 
+
+## Contributers
+
+Diya Baweja (2203425)
+Gurjot Kaur (2203433)
+Rahul Sachdeva (2203536)
