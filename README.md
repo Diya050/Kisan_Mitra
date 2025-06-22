@@ -111,6 +111,6 @@ Contributions are welcome! Feel free to fork the repository, improve features, a
 
 ## Contributers
 
-Diya Baweja (2203425)
-Gurjot Kaur (2203433)
+Diya Baweja (2203425)<br>
+Gurjot Kaur (2203433)<br>
 Rahul Sachdeva (2203536)
